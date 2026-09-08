@@ -1,12 +1,12 @@
 ;==============================================================================
-; Name:
-; Course:
-; Semester:
-; Assignment:
+; Name: Kyson Hensley
+; Course: RCET 3375
+; Semester: 5th semester
+; Assignment: 
 ; Device:      PIC16F883
 ; Toolchain:   MPLAB X + pic-as
 ; Git URL:
-; Linker Options:   -Wl,-presetVect=0000h,-pisrVect=0004h,-pcode=0008h
+; Linker Options:   -Wl,-presetVect=0000h,-pcode=0008h
 ;==============================================================================
 
     
