@@ -5,7 +5,7 @@
 ; Assignment: PIC
 ; Device:      PIC16F883
 ; Toolchain:   MPLAB X + pic-as
-; Git URL:
+; Git URL: https://github.com/kysonhensley/RCET3375-Lab2.git
 ; Linker Options:   -Wl,-presetVect=0000h,-pcode=0008h
 ;==============================================================================
 
