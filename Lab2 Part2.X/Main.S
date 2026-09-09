@@ -48,7 +48,7 @@ Setup:
     ; add device setup here
     BSF STATUS, 6
     BSF STATUS, 5	;Bank 3
-    CLRF ANSELH
+    CLRF ANSELH		;Clear ANSELH register
     
     BCF STATUS, 6
     BSF STATUS, 5	;Bank 1
@@ -56,7 +56,7 @@ Setup:
     
     BCF STATUS, 6
     BCF STATUS, 5	;Bank 0
-    BCF INTCON, 0	;Clear bit 0
+    BCF INTCON, 0	;Clear bit 0 of INTCON register
     
     BCF STATUS, 6
     BCF STATUS, 5	;Bank 0
@@ -69,6 +69,6 @@ Setup:
 ;------------------------------------------------------------------------------
 MainLoop:
     ; add main loop code here
-    INCF PORTB, F
+    INCF PORTB, F	;Increment PORTB register and store in F
     
     goto MainLoop

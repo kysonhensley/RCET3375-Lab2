@@ -46,6 +46,16 @@ PSECT code,class=CODE,delta=2
 ;------------------------------------------------------------------------------
 Setup:
     ; add device setup here
+    BSF STATUS, 6
+    BSF STATUS, 5	;Bank 3
+    CLRF ANSELH		;Clear ANSELH Register
+    
+    BCF STATUS, 6
+    BCF STATUS, 5	;Bank 0
+    CLRF INTCON		;Clear INTCON Register
+    
+    CLRF PORTB		;Clear PORTB
+    
     goto MainLoop
 
 ;------------------------------------------------------------------------------
@@ -53,4 +63,4 @@ Setup:
 ;------------------------------------------------------------------------------
 MainLoop:
     ; add main loop code here
-    goto MainLoop
+    goto MainLoop     
