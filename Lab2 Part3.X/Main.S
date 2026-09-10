@@ -46,9 +46,16 @@ PSECT code,class=CODE,delta=2
 ;------------------------------------------------------------------------------
 Setup:
     ; add device setup here
+    
+    ;PORTB Digital Inputs
     BSF STATUS, 6
     BSF STATUS, 5	;Bank 3
     CLRF ANSELH		;Clear ANSELH Register
+    
+    BCF STATUS, 6
+    BSF STATUS, 5	;Bank 1
+    MOVLW 0xFF		
+    MOVWF TRISB
     
     BCF STATUS, 6
     BCF STATUS, 5	;Bank 0
@@ -56,11 +63,96 @@ Setup:
     
     CLRF PORTB		;Clear PORTB
     
-    goto MainLoop
+    ;PORTC Digital Outputs
+    BSF STATUS, 6
+    BSF STATUS, 5       ;Bank 3
+    CLRF ANSEL           ;PORTC digital
+
+    BCF STATUS, 6
+    BSF STATUS, 5       ;Bank 1
+    CLRF TRISC           ;PORTC outputs
+
+    BCF STATUS, 6
+    BCF STATUS, 5       ;Bank 0
+    CLRF PORTC		;Clear PORTC
+    
+    goto Main
 
 ;------------------------------------------------------------------------------
 ; Main Loop
 ;------------------------------------------------------------------------------
-MainLoop:
+Main:
     ; add main loop code here
-    goto MainLoop     
+    
+    ;Test each bit jumpto correct display code
+    BTFSC PORTB, 7	;Test bit 7
+    goto Display7	;goto Display7 code
+    
+    BTFSC PORTB, 6	;Test bit 6
+    goto Display6	;goto Display6 code
+    
+    BTFSC PORTB, 5	;Test bit 5
+    goto Display5	;goto Display5 code
+    
+    BTFSC PORTB, 4	;Test bit 4
+    goto Display4	;goto Display4 code
+    
+    BTFSC PORTB, 3	;Test bit 3
+    goto Display3	;goto Display3 code
+    
+    BTFSC PORTB, 2	;Test bit 2
+    goto Display2	;goto Display6 code
+    
+    BTFSC PORTB, 1	;Test bit 1
+    goto Display1	;goto Display1 code
+    
+    BTFSC PORTB, 0	;Test bit 0
+    goto Display0	;goto Display0 code
+    
+    goto DisplayDollar
+    
+    ;Display Code Here
+    Display7:
+	MOVLW 0x37
+	MOVWF PORTC
+	goto Main
+	
+    Display6:
+	MOVLW 0x36
+	MOVWF PORTC
+	goto Main
+
+    Display5:
+	MOVLW 0x35
+	MOVWF PORTC
+	goto Main
+	
+    Display4:
+	MOVLW 0x34
+	MOVWF PORTC
+	goto Main
+	
+    Display3:
+	MOVLW 0x33
+	MOVWF PORTC
+	goto Main
+	
+    Display2:
+	MOVLW 0x32
+	MOVWF PORTC
+	goto Main
+
+    Display1:
+	MOVLW 0x31
+	MOVWF PORTC
+	goto Main
+	
+    Display0:
+	MOVLW 0x30
+	MOVWF PORTC
+	goto Main
+	
+    DisplayDollar:
+	MOVLW 0x24
+	MOVWF PORTC
+	goto Main 
