@@ -70,5 +70,4 @@ Setup:
 MainLoop:
     ; add main loop code here
     INCF PORTB, F	;Increment PORTB register and store in F
-    NOP
     goto MainLoop
