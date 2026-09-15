@@ -2,10 +2,10 @@
 ; Name: Kyson Hensley
 ; Course: RCET 3375
 ; Semester: 5th semester
-; Assignment: 
+; Assignment: PIC
 ; Device:      PIC16F883
 ; Toolchain:   MPLAB X + pic-as
-; Git URL:
+; Git URL: https://github.com/kysonhensley/RCET3375-Lab2.git
 ; Linker Options:   -Wl,-presetVect=0000h,-pcode=0008h
 ;==============================================================================
 
@@ -46,6 +46,22 @@ PSECT code,class=CODE,delta=2
 ;------------------------------------------------------------------------------
 Setup:
     ; add device setup here
+    BSF STATUS, 6
+    BSF STATUS, 5	;Bank 3
+    CLRF ANSELH		;Clear ANSELH register
+    
+    BCF STATUS, 6
+    BSF STATUS, 5	;Bank 1
+    CLRF TRISB		;Clear TRISB
+    
+    BCF STATUS, 6
+    BCF STATUS, 5	;Bank 0
+    BCF INTCON, 0	;Clear bit 0 of INTCON register
+    
+    BCF STATUS, 6
+    BCF STATUS, 5	;Bank 0
+    MOVLW 0x00
+    MOVWF PORTB		;Clear PORTB
     goto MainLoop
 
 ;------------------------------------------------------------------------------
@@ -53,4 +69,5 @@ Setup:
 ;------------------------------------------------------------------------------
 MainLoop:
     ; add main loop code here
+    INCF PORTB, F	;Increment PORTB register and store in F
     goto MainLoop
