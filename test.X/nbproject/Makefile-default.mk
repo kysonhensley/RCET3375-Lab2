@@ -30,12 +30,12 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=${DISTDIR}/test.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=${DISTDIR}/test.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
 ifeq ($(COMPARE_BUILD), true)
@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=Template_Main.S
+SOURCEFILES_QUOTED_IF_SPACED=Main.S
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Template_Main.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/Template_Main.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Main.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/Main.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/Template_Main.o
+OBJECTFILES=${OBJECTDIR}/Main.o
 
 # Source Files
-SOURCEFILES=Template_Main.S
+SOURCEFILES=Main.S
 
 
 
@@ -82,46 +82,46 @@ FIXDEPS=fixDeps
 ifneq ($(INFORMATION_MESSAGE), )
 	@echo $(INFORMATION_MESSAGE)
 endif
-	${MAKE}  -f nbproject/Makefile-default.mk ${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE}  -f nbproject/Makefile-default.mk ${DISTDIR}/test.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=PIC16F883
-FINAL_IMAGE_NAME_MINUS_EXTENSION=${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}
+FINAL_IMAGE_NAME_MINUS_EXTENSION=${DISTDIR}/test.X.${IMAGE_TYPE}
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: pic-as-assembler
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/Template_Main.o: Template_Main.S  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/Main.o: Main.S  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/Template_Main.o 
+	@${RM} ${OBJECTDIR}/Main.o 
 	${MP_AS} -mcpu=PIC16F883 -c \
-	-o ${OBJECTDIR}/Template_Main.o \
-	Template_Main.S \
-	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp -Wl,-presetVect=0000h,-pcode=0008h
+	-o ${OBJECTDIR}/Main.o \
+	Main.S \
+	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 else
-${OBJECTDIR}/Template_Main.o: Template_Main.S  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/Main.o: Main.S  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/Template_Main.o 
+	@${RM} ${OBJECTDIR}/Main.o 
 	${MP_AS} -mcpu=PIC16F883 -c \
-	-o ${OBJECTDIR}/Template_Main.o \
-	Template_Main.S \
-	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp -Wl,-presetVect=0000h,-pcode=0008h
+	-o ${OBJECTDIR}/Main.o \
+	Main.S \
+	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 endif
 
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: pic-as-linker
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
+${DISTDIR}/test.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} ${DISTDIR} 
 	${MP_LD} -mcpu=PIC16F883 ${OBJECTFILES_QUOTED_IF_SPACED} \
-	-o ${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} \
-	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -mcallgraph=std -Wl,-Map=${FINAL_IMAGE_NAME_MINUS_EXTENSION}.map -mno-download-hex -Wl,-presetVect=0000h,-pcode=0008h
+	-o ${DISTDIR}/test.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} \
+	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -mcallgraph=std -Wl,-Map=${FINAL_IMAGE_NAME_MINUS_EXTENSION}.map -mno-download-hex
 else
-${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
+${DISTDIR}/test.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} ${DISTDIR} 
 	${MP_LD} -mcpu=PIC16F883 ${OBJECTFILES_QUOTED_IF_SPACED} \
-	-o ${DISTDIR}/Lab2_Part4.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} \
-	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -mcallgraph=std -Wl,-Map=${FINAL_IMAGE_NAME_MINUS_EXTENSION}.map -mno-download-hex -Wl,-presetVect=0000h,-pcode=0008h
+	-o ${DISTDIR}/test.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} \
+	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -mcallgraph=std -Wl,-Map=${FINAL_IMAGE_NAME_MINUS_EXTENSION}.map -mno-download-hex
 endif
 
 
