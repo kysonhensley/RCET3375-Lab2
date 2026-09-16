@@ -32,6 +32,7 @@
 
 // config statements should precede project file includes.
 #include <xc.inc>
+    count EQU 0x20; 20 used for 8-bit counter
   
   ; Reset Vector at 0000h. Execution starts here after reset.
 PSECT resetVect,class=CODE,delta=2
@@ -62,12 +63,21 @@ Setup:
     BCF STATUS, 5	;Bank 0
     MOVLW 0x00
     MOVWF PORTB		;Clear PORTB
+    
+    
     goto MainLoop
 
 ;------------------------------------------------------------------------------
 ; Main Loop
 ;------------------------------------------------------------------------------
 MainLoop:
-    MOVLW 0x01      ; 1 TCY 
-    XORWF PORTB,1   ; 1 TCY
-    goto  MainLoop  ; 2 TCY
+    MOVLW 0x01                      ;1 TCY code not part of delay
+    XORWF PORTB,1                   ;1 TCY code not part of delay
+
+    MOVLW 0x0F                      ;1 TCY delay overhead
+    MOVWF count                     ;1 TCY delay overhead
+DelayLoop:                     
+    DECFSZ count,1                  ;1(2) 1 TCY if not zero, 2 TCY if zero
+    goto DelayLoop                  ;2 TCY
+
+    goto   MainLoop                 ;2 TCY code not part of delay
