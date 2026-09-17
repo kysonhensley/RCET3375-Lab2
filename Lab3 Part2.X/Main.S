@@ -63,8 +63,6 @@ Setup:
     BCF STATUS, 5	;Bank 0
     MOVLW 0x00
     MOVWF PORTB		;Clear PORTB
-    
-    
     goto MainLoop
 
 ;------------------------------------------------------------------------------
@@ -76,6 +74,7 @@ MainLoop:
 
     MOVLW 0x0F                      ;1 TCY delay overhead
     MOVWF count                     ;1 TCY delay overhead
+    NOP
 DelayLoop:                     
     DECFSZ count,1                  ;1(2) 1 TCY if not zero, 2 TCY if zero
     goto DelayLoop                  ;2 TCY
