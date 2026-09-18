@@ -58,6 +58,8 @@ Setup:
     BANKSEL TRISB
     CLRF TRISB			;config. PORTB as digital output
     CLRF TRISC			;config PORTC as digital output
+    BCF INTCON, 0		;Clear bit 0 of INTCON
+    BANKSEL PORTB
     
     goto MainLoop
 
@@ -70,15 +72,15 @@ MainLoop:
     XORWF PORTB, 1		;1 Tcy
     MOVLW 0x05			; 1 TCY
     XORWF PORTC, 1		; 1 TCY  0x30 (0 on display) and 0x35 (5 on display) toggle
-    MOVLW 0x0A
+    MOVLW 0xA6			;1 Tcy
     MOVWF Count			;1 Tcy
     
 OutterLoop:
-    MOVLW 0x0A			;1 Tcy
+    MOVLW 0x08			;1 Tcy
     MOVWF midCount		;1 Tcy
     
 MiddleLoop:
-    MOVLW 0x0A			;1 Tcy
+    MOVLW 0x7C			;1 Tcy
     MOVWF inCount
     
 InnerLoop:
@@ -88,5 +90,4 @@ InnerLoop:
     goto MiddleLoop		;2 Tcy
     DECFSZ Count		;1(2) Tcy
     goto OutterLoop		;2 Tcy
-    NOP
     goto MainLoop		;2 Tcy
