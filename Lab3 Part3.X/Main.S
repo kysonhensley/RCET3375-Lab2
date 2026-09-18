@@ -53,7 +53,8 @@ Setup:
     CLRF ANSELH
     BANKSEL PORTB
     CLRF PORTB
-    CLRF PORTC
+    MOVLW 0x30
+    MOVWF PORTC			;Load 0 into display
     BANKSEL TRISB
     CLRF TRISB			;config. PORTB as digital output
     CLRF TRISC			;config PORTC as digital output
@@ -67,6 +68,8 @@ MainLoop:
     ; add main loop code here
     MOVLW 0x01			;1 Tcy
     XORWF PORTB, 1		;1 Tcy
+    MOVLW 0x05			; 1 TCY
+    XORWF PORTC, 1		; 1 TCY  0x30 (0 on display) and 0x35 (5 on display) toggle
     MOVLW 0x0A
     MOVWF Count			;1 Tcy
     
@@ -85,4 +88,5 @@ InnerLoop:
     goto MiddleLoop		;2 Tcy
     DECFSZ Count		;1(2) Tcy
     goto OutterLoop		;2 Tcy
+    NOP
     goto MainLoop		;2 Tcy
