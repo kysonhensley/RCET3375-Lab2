@@ -32,6 +32,9 @@
 
 // config statements should precede project file includes.
 #include <xc.inc>
+    Count EQU 0x20		;register 20 for 8-bit counter
+    midCount EQU 0x21		;register 21 for 8-bit counter
+    inCount EQU 0x22		;register 22 for 8-bit counter
   
   ; Reset Vector at 0000h. Execution starts here after reset.
 PSECT resetVect,class=CODE,delta=2
@@ -46,6 +49,15 @@ PSECT code,class=CODE,delta=2
 ;------------------------------------------------------------------------------
 Setup:
     ; add device setup here
+    BANKSEL ANSELH
+    CLRF ANSELH
+    BANKSEL PORTB
+    CLRF PORTB
+    CLRF PORTC
+    BANKSEL TRISB
+    CLRF TRISB			;config. PORTB as digital output
+    CLRF TRISC			;config PORTC as digital output
+    
     goto MainLoop
 
 ;------------------------------------------------------------------------------
@@ -53,4 +65,24 @@ Setup:
 ;------------------------------------------------------------------------------
 MainLoop:
     ; add main loop code here
-    goto MainLoop
+    MOVLW 0x01			;1 Tcy
+    XORWF PORTB, 1		;1 Tcy
+    MOVLW 0x0A
+    MOVWF Count			;1 Tcy
+    
+OutterLoop:
+    MOVLW 0x0A			;1 Tcy
+    MOVWF midCount		;1 Tcy
+    
+MiddleLoop:
+    MOVLW 0x0A			;1 Tcy
+    MOVWF inCount
+    
+InnerLoop:
+    DECFSZ inCount		;1(2) Tcy
+    GOTO InnerLoop		;2 Tcy
+    DECFSZ midCount		;1(2) Tcy
+    goto MiddleLoop		;2 Tcy
+    DECFSZ Count		;1(2) Tcy
+    goto OutterLoop		;2 Tcy
+    goto MainLoop		;2 Tcy
