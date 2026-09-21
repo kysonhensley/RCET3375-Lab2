@@ -33,7 +33,9 @@
 // config statements should precede project file includes.
 #include <xc.inc>
   outCount EQU 0x20
-  inCount EQU 0x21
+  midCount EQU 0x21
+  inCount EQU 0x22
+  
  
   ; Reset Vector at 0000h. Execution starts here after reset.
 PSECT resetVect,class=CODE,delta=2
@@ -60,5 +62,20 @@ Setup:
 ;------------------------------------------------------------------------------
 MainLoop:
     ; add main loop code here
+    MOVLW 0x05
+    XORWF PORTC,1
+    CALL  LongDelay
     
-    goto MainLoop
+LongDelay:
+    ;Long delay code here
+    MOVLW 0x0A
+    MOVWF outCount
+    DECFSZ outCount
+    CALL ShortDelay
+    RETURN
+    
+ShortDelay:
+    MOVLW 0x0A
+    MOVWF inCount
+    DECFSZ inCount
+    goto LonDelay
