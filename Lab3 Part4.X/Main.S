@@ -32,7 +32,9 @@
 
 // config statements should precede project file includes.
 #include <xc.inc>
-  
+  outCount EQU 0x20
+  inCount EQU 0x21
+ 
   ; Reset Vector at 0000h. Execution starts here after reset.
 PSECT resetVect,class=CODE,delta=2
 ResetVector:            
@@ -46,6 +48,10 @@ PSECT code,class=CODE,delta=2
 ;------------------------------------------------------------------------------
 Setup:
     ; add device setup here
+    BANKSEL TRISC 
+    CLRF TRISC
+    BANKSEL PORTC
+    CLRF PORTC
     goto MainLoop
 
 ;------------------------------------------------------------------------------
@@ -53,4 +59,5 @@ Setup:
 ;------------------------------------------------------------------------------
 MainLoop:
     ; add main loop code here
+    
     goto MainLoop
