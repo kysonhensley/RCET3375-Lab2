@@ -63,19 +63,31 @@ Setup:
 MainLoop:
     ; add main loop code here
     MOVLW 0x05
-    XORWF PORTC,1
+    XORWF PORTC, 1
+    MOVLW 0x4F
+    MOVWF outCount
     CALL  LongDelay
+    goto MainLoop
     
 LongDelay:
-    ;Long delay code here
-    MOVLW 0x0A
-    MOVWF outCount
-    DECFSZ outCount
+    ;Long delay/out count
     CALL ShortDelay
+    DECFSZ outCount
+    goto LongDelay
     RETURN
     
 ShortDelay:
-    MOVLW 0x0A
-    MOVWF inCount
-    DECFSZ inCount
-    goto LonDelay
+    ;short delay code
+    ;middle count
+    MOVLW 0x15
+    MOVWF midCount
+    
+    MiddleCount:
+	MOVLW 0x63
+	MOVWF inCount
+    InnerCount:
+	DECFSZ inCount
+	goto InnerCount
+	DECFSZ midCount
+	goto MiddleCount
+	RETURN
