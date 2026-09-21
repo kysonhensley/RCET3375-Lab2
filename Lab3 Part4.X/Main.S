@@ -49,9 +49,10 @@ PSECT code,class=CODE,delta=2
 Setup:
     ; add device setup here
     BANKSEL TRISC 
-    CLRF TRISC
+    CLRF TRISC		;PORTC as digital outpus
     BANKSEL PORTC
-    CLRF PORTC
+    MOVLW 0x30
+    MOVWF PORTC		;Display 0 on display
     goto MainLoop
 
 ;------------------------------------------------------------------------------
