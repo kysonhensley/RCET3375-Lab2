@@ -55,7 +55,7 @@ Setup:
     BANKSEL PORTC
     MOVLW 0x30
     MOVWF PORTC		;Display 0 on display
-    goto MainLoop
+    GOTO MainLoop
 
 ;------------------------------------------------------------------------------
 ; Main Loop
@@ -67,13 +67,13 @@ MainLoop:
     MOVLW 0x4F
     MOVWF outCount
     CALL  LongDelay
-    goto MainLoop
+    GOTO MainLoop
     
 LongDelay:
     ;Long delay/out count
     CALL ShortDelay
     DECFSZ outCount
-    goto LongDelay
+    GOTO LongDelay
     RETURN
     
 ShortDelay:
@@ -87,7 +87,7 @@ ShortDelay:
 	MOVWF inCount
     InnerCount:
 	DECFSZ inCount
-	goto InnerCount
+	GOTO InnerCount
 	DECFSZ midCount
-	goto MiddleCount
+	GOTO MiddleCount
 	RETURN
