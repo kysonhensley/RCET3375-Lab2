@@ -32,6 +32,9 @@
 
 // config statements should precede project file includes.
 #include <xc.inc>
+    keyLow  EQU 0x20		    ;bits for keys 0-7
+    keyHigh EQU 0x21		    ;bits for keys 8-"15"
+    
   
   ; Reset Vector at 0000h. Execution starts here after reset.
 PSECT resetVect,class=CODE,delta=2
