@@ -32,25 +32,41 @@
 
 // config statements should precede project file includes.
 #include <xc.inc>
-  
-  ; Reset Vector at 0000h. Execution starts here after reset.
+    delayTone        EQU 0x20
+    buttonSelected   EQU 0x21
 PSECT resetVect,class=CODE,delta=2
-ResetVector:            
-    goto Setup
-
-; Main code section starts at 0008h. User code goes here.
+ResetVector:
+    goto    Setup
 PSECT code,class=CODE,delta=2
-
-;------------------------------------------------------------------------------
-; Setup
-;------------------------------------------------------------------------------
 Setup:
-    ; add device setup here
-    goto MainLoop
-
-;------------------------------------------------------------------------------
-; Main Loop
-;------------------------------------------------------------------------------
+    BANKSEL ANSELH
+    CLRF    ANSELH
+    BANKSEL TRISB
+    MOVLW   0x02
+    MOVWF   TRISB		;make bit 1 of portb input and all others outputs
+    CLRF    TRISC		;make portc outputs
+    BANKSEL PORTB
+    CLRF    PORTC
+    CLRF    buttonSelected	;button selection register
+    GOTO    MainLoop
 MainLoop:
-    ; add main loop code here
-    goto MainLoop
+    BTFSS   PORTB, 1
+    ; skip NoButton if RB0 is 1 
+    GOTO    NoButton
+    MOVLW   0x01
+    MOVWF   buttonSelected
+    MOVLW   0x02                
+    XORWF   PORTC, 1            ; toggle RC1 
+    NOP
+    MOVLW   0xA2
+    MOVWF   delayTone
+    CALL    ToneDelay
+    GOTO    MainLoop
+NoButton:
+    CLRF    buttonSelected
+    BCF     PORTC, 1            ; make RC1 low
+    GOTO    MainLoop
+ToneDelay:
+    DECFSZ  delayTone, 1
+    GOTO    ToneDelay
+    RETURN
