@@ -42,18 +42,19 @@ PSECT code,class=CODE,delta=2
 
 Setup:
     BANKSEL ANSELH
-    CLRF    ANSELH
+    CLRF    ANSELH		;make PORTB pins Digital I/O
     BANKSEL TRISB
     MOVLW   0xFF
-    MOVWF   TRISB
-    CLRF    TRISC
+    MOVWF   TRISB		;make PORTB all inputs
+    CLRF    TRISC		;make PORTC all outputs
     BANKSEL PORTB
-    CLRF    PORTB
-    CLRF    PORTC
-    CLRF    buttonSelected
-    GOTO    MainLoop
+    CLRF    PORTB		;Clear PORTB
+    CLRF    PORTC		;Clear PORTC
+    CLRF    buttonSelected	;Clear buttonSelected register
+    GOTO    MainLoop		
     
 MainLoop:
+    ;Test keys
     BTFSC   PORTB, 7
     GOTO    Tone8
     BTFSC   PORTB, 6
@@ -74,40 +75,40 @@ MainLoop:
     GOTO    MainLoop
     
 Tone8:	    
-    MOVLW   0x08
+    MOVLW   0x08		;Index 8
     GOTO    PlayTone
 Tone7:	    
-    MOVLW   0x07
+    MOVLW   0x07		;Index 7
     GOTO    PlayTone
 Tone6:	    
-    MOVLW   0x06
+    MOVLW   0x06		;Index 6
     GOTO    PlayTone
 Tone5:	    
-    MOVLW   0x05
+    MOVLW   0x05		;Index 5
     GOTO    PlayTone
 Tone4:	    
-    MOVLW   0x04
+    MOVLW   0x04		;Index 4
     GOTO    PlayTone
 Tone3:	    
-    MOVLW   0x03
+    MOVLW   0x03		;Index 3
     GOTO    PlayTone
 Tone2:	    
-    MOVLW   0x02
+    MOVLW   0x02		;Index 2
     GOTO    PlayTone
 Tone1:	    
-    MOVLW   0x01
+    MOVLW   0x01		;Index 1
     
 PlayTone:
-    MOVWF   buttonSelected
+    MOVWF   buttonSelected	;store keys selected in GPR
     CALL    LookUpTone
-    MOVWF   delayTone
+    MOVWF   delayTone		;store index delay into delayTone register for delay
     MOVLW   0x01
-    XORWF   PORTC, 1
-    CALL    ToneDelay
+    XORWF   PORTC, 1		;toggle bit 0 of PORTC
+    CALL    ToneDelay		;Tone Delay for output frequency delay
     GOTO    MainLoop
     
 LookUpTone:
-    ADDWF   PCL, f
+    ADDWF   PCL, f		;skip W instructions from key test
     RETLW   0x00
     RETLW   0xEE
     RETLW   0xD4
@@ -122,7 +123,7 @@ ToneDelay:
     MOVLW   0x04
     MOVWF   innerCount
 InnerLoop:
-    DECFSZ  innerCount, 1
+    DECFSZ  innerCount, 1	;add 12uS to each ToneDelay loop for frequency accuracy
     GOTO    InnerLoop
     DECFSZ  delayTone, 1
     GOTO    ToneDelay
